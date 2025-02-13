@@ -8,8 +8,9 @@ Este proyecto proporciona una solución avanzada para limpiar grabaciones de aud
 - 🔹 **Eliminación de silencios no deseados**
 - 🔹 **Aislamiento y mejora de voces**
 - 🔹 **Optimización de la claridad del audio**
+- - 🔹 **Ecualización del audio**
 
-Es ideal para mejorar **grabaciones de telemarketing, entrevistas, podcasts y cualquier audio con ruido ambiental**.
+Es ideal para mejorar **grabaciones de telemarketing, entrevistas, podcasts y cualquier audio con ruido ambiental (No Estacionario)**.
 
 ---
 
@@ -53,7 +54,7 @@ El script generará gráficos mostrando:
 - 📊 **NumPy** - Manipulación de datos
 - 🎚️ **SciPy** - Filtrado de señales
 - 🎵 **SoundFile** - Lectura y escritura de archivos de audio
-- 🎙️ **Librosa** - Análisis de audio y eliminación de silencios
+- 🎙️ **Librosa** - 🎙️ Librosa - Análisis de audio y eliminación de silencios, 🎚️ Filtros de paso alto y paso bajo para mejorar la voz, 🔊 Normalización de volumen para asegurar claridad
 - 🔉 **Noisereduce** - Reducción de ruido
 - 📈 **Matplotlib** - Visualización de señales
 
