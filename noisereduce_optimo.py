@@ -17,24 +17,24 @@ def highpass_filter(data, cutoff=100, fs=44100, order=5):
 
 # Función para eliminar silencios basados en la energía del audio
 def remove_silence(audio, rate, top_db=25):
-    """
-    Elimina segmentos silenciosos o con ruido de fondo donde no hay voz.
-    
-    Parámetros:
-        audio (numpy array): Señal de audio.
-        rate (int): Frecuencia de muestreo.
-        top_db (int): Umbral en decibeles para detectar silencio.
-    
-    Retorna:
-        audio_recortado (numpy array): Audio sin los segmentos silenciosos.
-    """
-    # Detectar segmentos donde hay voz
     intervals = librosa.effects.split(audio, top_db=top_db)
-
-    # Concatenar los segmentos detectados para eliminar los silencios
     audio_recortado = np.concatenate([audio[start:end] for start, end in intervals])
-
     return audio_recortado
+
+# Función para aplicar un filtro de ecualización para mejorar la claridad de la voz
+def equalize_voice(audio, rate):
+    # Aplicar un filtro de paso alto para eliminar frecuencias bajas (ruido de fondo)
+    highpass_audio = highpass_filter(audio, cutoff=80, fs=rate)
+    # Aplicar un filtro de paso bajo para eliminar frecuencias altas (ruido)
+    nyq = 0.5 * rate
+    normal_cutoff_low = 3000 / nyq
+    b, a = butter(2, normal_cutoff_low, btype='low', analog=False)
+    lowpass_audio = lfilter(b, a, highpass_audio)
+    return lowpass_audio
+
+# Función para normalizar el audio
+def normalize_audio(audio):
+    return audio / np.max(np.abs(audio))
 
 # Cargar datos de audio desde la URL (Le podemos meter DataSets de audios)
 url = "https://raw.githubusercontent.com/DaversmMG/audios/main/audiocall_original.WAV"
@@ -77,20 +77,26 @@ plt.show()
 # Eliminar los silencios después de la reducción de ruido
 audio_cleaned = remove_silence(reduced_noise_nonstationary, rate, top_db=25)
 
-# Graficar la comparación de audio antes y después de eliminar silencios
+# Aplicar ecualización para mejorar la claridad de la voz
+equalized_audio = equalize_voice(audio_cleaned, rate)
+
+# Normalizar el audio
+normalized_audio = normalize_audio(equalized_audio)
+
+# Graficar la comparación de audio antes y después de eliminar silencios y ecualizar
 plt.figure(figsize=(20, 4))
 plt.plot(reduced_noise_nonstationary, label="Ruido Reducido", alpha=0.5, color="green")
-plt.plot(audio_cleaned, label="Ruido Reducido sin Silencios", alpha=0.9, color="purple")
+plt.plot(audio_cleaned, label="Ruido Reducido sin Silencios", alpha=0.5, color="purple")
+plt.plot(normalized_audio, label="Ruido Reducido sin Silencios y Ecualizado", alpha=0.9, color="orange")
 plt.legend()
-plt.title("Comparación de Audio Reducido vs. Audio sin Silencios")
+plt.title("Comparación de Audio Reducido vs. Audio sin Silencios y Ecualizado")
 plt.xlabel("Tiempo (muestras)")
 plt.ylabel("Amplitud")
 plt.grid(True)
 plt.show()
 
 # Guardar los archivos procesados
-final_filename = "reduced_noise_no_silence.wav"
-sf.write(final_filename, audio_cleaned, rate)
+final_filename = "reduced_noise_no_silence_equalized.wav"
+sf.write(final_filename, normalized_audio, rate)
 
 print(f"Archivo guardado: {final_filename}")
-
