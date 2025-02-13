@@ -8,7 +8,7 @@ Este proyecto proporciona una solución avanzada para limpiar grabaciones de aud
 - 🔹 **Eliminación de silencios no deseados**
 - 🔹 **Aislamiento y mejora de voces**
 - 🔹 **Optimización de la claridad del audio**
-- - 🔹 **Ecualización del audio**
+-  🔹 **Ecualización del audio**
 
 Es ideal para mejorar **grabaciones de telemarketing, entrevistas, podcasts y cualquier audio con ruido ambiental (No Estacionario)**.
 
