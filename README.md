@@ -75,3 +75,10 @@ Si tienes alguna pregunta o sugerencia, no dudes en contactarme a través de Git
 
 - 📧 **Email:** dave.santivanez@materiagris.pe
 - 🔗 **GitHub:** [DaversmMG](https://github.com/DaversmMG)
+
+## :) Archivo .env
+
+- AWS_ACCESS_KEY_ID=""
+- AWS_SECRET_ACCESS_KEY=""
+- AWS_REGION=""
+
